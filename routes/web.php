@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\LeaseController;
+
 
 Route::get('/', function () {
     return view('welcome');

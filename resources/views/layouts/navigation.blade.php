@@ -12,8 +12,31 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <!-- Dashboard -->
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <!-- Properties -->
+                    <x-nav-link :href="route('properties.index')" :active="request()->routeIs('properties.*')">
+                        {{ __('Nieruchomości') }}
+                    </x-nav-link>
+                    <!-- Tenants -->
+                    <x-nav-link :href="route('tenants.index')" :active="request()->routeIs('tenants.*')">
+                        {{ __('Najemcy') }}
+                    </x-nav-link>
+                    <!-- Units -->
+                    {{-- Przekierujemy na pierwszą dostępną nieruchomość – lub osobno potem dodamy skrót do mieszkań --}}
+                    @php
+                        $firstProperty = \App\Models\Property::first();
+                    @endphp
+                    @if($firstProperty)
+                        <x-nav-link :href="route('properties.units.index', $firstProperty)" :active="request()->routeIs('properties.units.*')">
+                            {{ __('Lokale') }}
+                        </x-nav-link>
+                    @endif
+                    <!-- Leases -->
+                    <x-nav-link :href="route('leases.index')" :active="request()->routeIs('leases.*')">
+                        {{ __('Umowy') }}
                     </x-nav-link>
                 </div>
             </div>

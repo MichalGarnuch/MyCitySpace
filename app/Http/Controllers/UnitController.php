@@ -2,64 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Property;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Property $property)
     {
-        //
+        $units = $property->units;
+        return view('units.index', compact('property', 'units'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Property $property)
     {
-        //
+        return view('units.create', compact('property'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, Property $property)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:free,occupied',
+        ]);
+
+        $property->units()->create($validated);
+
+        return redirect()->route('properties.units.index', $property)->with('success', 'Lokal dodany.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Unit $unit)
+    public function show(Property $property, Unit $unit)
     {
-        //
+        return view('units.show', compact('property', 'unit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Unit $unit)
+    public function edit(Property $property, Unit $unit)
     {
-        //
+        return view('units.edit', compact('property', 'unit'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Unit $unit)
+    public function update(Request $request, Property $property, Unit $unit)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:free,occupied',
+        ]);
+
+        $unit->update($validated);
+
+        return redirect()->route('properties.units.index', $property)->with('success', 'Lokal zaktualizowany.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Unit $unit)
+    public function destroy(Property $property, Unit $unit)
     {
-        //
+        $unit->delete();
+
+        return redirect()->route('properties.units.index', $property)->with('success', 'Lokal usunięty.');
     }
 }
