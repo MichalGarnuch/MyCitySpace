@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(UserSeeder::class);
         // 5 nieruchomości × 10 lokali
         Property::factory(5)->create()->each(function ($property) {
             Unit::factory(10)->create([
