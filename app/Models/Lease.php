@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Lease extends Model
 {
     use HasFactory;
-    protected $fillable = ['unit_id','tenant_id','start_date','end_date'];
+    protected $fillable = ['unit_id','tenant_id','start_date','end_date','rent'];
 
     public function unit(): BelongsTo
     {

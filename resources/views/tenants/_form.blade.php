@@ -39,6 +39,7 @@
             type="email"
             class="mt-1 block w-full"
             :value="old('email', $tenant->email ?? '')"
+            required
         />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
     </div>
