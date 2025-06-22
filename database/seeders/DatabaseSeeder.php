@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Amenity;
+use App\Models\Lease;
+use App\Models\Property;
+use App\Models\Tenant;
+use App\Models\Unit;
 use Illuminate\Database\Seeder;
-use App\Models\{Property, Unit, Tenant, Lease};
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +22,12 @@ class DatabaseSeeder extends Seeder
 
         // 20 lokatorów
         Tenant::factory(20)->create();
+
+        // 5 udogodnień
+        $amenities = Amenity::factory(5)->create();
+        Unit::all()->each(function ($unit) use ($amenities) {
+            $unit->amenities()->attach($amenities->random(rand(1, 3)));
+        });
 
         // 30 losowych umów
         // pobieramy istniejące unit-y i tenant-ów, żeby uniknąć factory-nested
