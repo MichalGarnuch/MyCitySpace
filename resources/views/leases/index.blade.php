@@ -7,7 +7,26 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-between mb-4">
+                <form method="GET" class="flex space-x-2">
+                    <select name="tenant_id" class="border-gray-300 rounded-md">
+                        <option value="">{{ __('Wszyscy najemcy') }}</option>
+                        @foreach($tenants as $tenantOption)
+                            <option value="{{ $tenantOption->id }}" @selected(request('tenant_id') == $tenantOption->id)>
+                                {{ $tenantOption->first_name }} {{ $tenantOption->last_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <select name="unit_id" class="border-gray-300 rounded-md">
+                        <option value="">{{ __('Wszystkie lokale') }}</option>
+                        @foreach($units as $unitOption)
+                            <option value="{{ $unitOption->id }}" @selected(request('unit_id') == $unitOption->id)>
+                                {{ $unitOption->property->name }} / {{ $unitOption->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-primary-button>{{ __('Szukaj') }}</x-primary-button>
+                </form>
                 <x-primary-button-link :href="route('leases.create')">
                     {{ __('Nowa umowa') }}
                 </x-primary-button-link>

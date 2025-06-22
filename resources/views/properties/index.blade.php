@@ -7,7 +7,22 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-between mb-4">
+                <form method="GET" class="flex space-x-2">
+                    <x-text-input
+                        name="name"
+                        type="text"
+                        placeholder="{{ __('Nazwa') }}"
+                        :value="request('name')"
+                    />
+                    <x-text-input
+                        name="address"
+                        type="text"
+                        placeholder="{{ __('Adres') }}"
+                        :value="request('address')"
+                    />
+                    <x-primary-button>{{ __('Szukaj') }}</x-primary-button>
+                </form>
                 <x-primary-button-link :href="route('properties.create')">
                     {{ __('Dodaj nieruchomość') }}
                 </x-primary-button-link>

@@ -7,7 +7,22 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-between mb-4">
+                <form method="GET" class="flex space-x-2">
+                    <x-text-input
+                        name="last_name"
+                        type="text"
+                        placeholder="{{ __('Nazwisko') }}"
+                        :value="request('last_name')"
+                    />
+                    <x-text-input
+                        name="email"
+                        type="text"
+                        placeholder="{{ __('E-mail') }}"
+                        :value="request('email')"
+                    />
+                    <x-primary-button>{{ __('Szukaj') }}</x-primary-button>
+                </form>
                 <x-primary-button-link :href="route('tenants.create')">
                     {{ __('Dodaj lokatora') }}
                 </x-primary-button-link>

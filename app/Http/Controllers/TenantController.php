@@ -7,9 +7,19 @@ use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tenants = Tenant::all();
+        $tenants = Tenant::query()
+            ->when(
+                $request->query('last_name'),
+                fn($query, $last) => $query->where('last_name', 'like', "%$last%")
+            )
+            ->when(
+                $request->query('email'),
+                fn($query, $email) => $query->where('email', 'like', "%$email%")
+            )
+            ->get();
+
         return view('tenants.index', compact('tenants'));
     }
 

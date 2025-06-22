@@ -9,10 +9,22 @@ use Illuminate\Http\Request;
 
 class LeaseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $leases = Lease::with(['unit.property', 'tenant'])->get();
-        return view('leases.index', compact('leases'));
+        $leases = Lease::with(['unit.property', 'tenant'])
+            ->when(
+                $request->query('tenant_id'),
+                fn($query, $tenantId) => $query->where('tenant_id', $tenantId)
+            )
+            ->when(
+                $request->query('unit_id'),
+                fn($query, $unitId) => $query->where('unit_id', $unitId)
+            )
+            ->get();
+        $tenants = Tenant::all();
+        $units = Unit::with('property')->get();
+
+        return view('leases.index', compact('leases', 'tenants', 'units'));
     }
 
     public function create()

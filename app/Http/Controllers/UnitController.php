@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-    public function index(Property $property)
+    public function index(Request $request, Property $property)
     {
-        $units = $property->units;
+        $units = $property->units()
+            ->when(
+                $request->query('name'),
+                fn($query, $name) => $query->where('name', 'like', "%$name%")
+            )
+            ->when(
+                $request->query('status'),
+                fn($query, $status) => $query->where('status', $status)
+            )
+            ->get();
+
         return view('units.index', compact('property', 'units'));
     }
 

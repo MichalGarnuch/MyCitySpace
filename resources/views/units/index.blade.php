@@ -7,7 +7,21 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-between mb-4">
+                <form method="GET" class="flex space-x-2">
+                    <x-text-input
+                        name="name"
+                        type="text"
+                        placeholder="{{ __('Nazwa') }}"
+                        :value="request('name')"
+                    />
+                    <select name="status" class="border-gray-300 rounded-md">
+                        <option value="">{{ __('Dowolny status') }}</option>
+                        <option value="free" @selected(request('status')==='free')>{{ __('Wolny') }}</option>
+                        <option value="occupied" @selected(request('status')==='occupied')>{{ __('Zajęty') }}</option>
+                    </select>
+                    <x-primary-button>{{ __('Szukaj') }}</x-primary-button>
+                </form>
                 <x-primary-button-link :href="route('properties.units.create', $property)">
                     {{ __('Dodaj lokal') }}
                 </x-primary-button-link>
