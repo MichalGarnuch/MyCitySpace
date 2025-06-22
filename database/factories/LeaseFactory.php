@@ -19,7 +19,6 @@ class LeaseFactory extends Factory
             'unit_id'    => Unit::factory(),   // nadpisane w seederze przez ->for($unit)
             'tenant_id'  => Tenant::factory(), // j.w.
             'start_date' => $start->format('Y-m-d'),
-            'end_date'   => $end->format('Y-m-d'),
             'end_date' => $end->format('Y-m-d'),
             'rent' => fake()->numberBetween(1000, 5000),
         ];

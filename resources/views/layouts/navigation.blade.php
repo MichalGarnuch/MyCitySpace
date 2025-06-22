@@ -38,6 +38,10 @@
                     <x-nav-link :href="route('leases.index')" :active="request()->routeIs('leases.*')">
                         {{ __('Umowy') }}
                     </x-nav-link>
+                    <!-- Amenities -->
+                    <x-nav-link :href="route('amenities.index')" :active="request()->routeIs('amenities.*')">
+                        {{ __('Udogodnienia') }}
+                    </x-nav-link>
                 </div>
             </div>
 
