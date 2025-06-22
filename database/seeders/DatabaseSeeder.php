@@ -25,9 +25,19 @@ class DatabaseSeeder extends Seeder
 
         // 5 udogodnień
         $amenities = Amenity::factory(5)->create();
+
+        Property::all()->each(function ($property) use ($amenities) {
+            $property->amenities()->attach($amenities->random(rand(1, 3)));
+        });
+
         Unit::all()->each(function ($unit) use ($amenities) {
             $unit->amenities()->attach($amenities->random(rand(1, 3)));
         });
+
+        Tenant::all()->each(function ($tenant) use ($amenities) {
+            $tenant->amenities()->attach($amenities->random(rand(1, 3)));
+        });
+
 
         // 30 losowych umów
         // pobieramy istniejące unit-y i tenant-ów, żeby uniknąć factory-nested
