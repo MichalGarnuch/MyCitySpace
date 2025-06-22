@@ -32,6 +32,11 @@ class LeaseController extends Controller
             'rent'       => 'required|numeric|min:0',
         ]);
 
+        if (Lease::conflictsWith($validated['unit_id'], $validated['start_date'], $validated['end_date'])) {
+            return back()->withErrors([
+                'unit_id' => 'Wybrany lokal posiada już umowę w tym okresie.',
+            ])->withInput();
+        }
         Lease::create($validated);
 
         return redirect()->route('leases.index')->with('success', 'Umowa dodana.');
@@ -59,6 +64,11 @@ class LeaseController extends Controller
             'rent'       => 'required|numeric|min:0',
         ]);
 
+        if (Lease::conflictsWith($validated['unit_id'], $validated['start_date'], $validated['end_date'], $lease->id)) {
+            return back()->withErrors([
+                'unit_id' => 'Wybrany lokal posiada już umowę w tym okresie.',
+            ])->withInput();
+        }
         $lease->update($validated);
 
         return redirect()->route('leases.index')->with('success', 'Umowa zaktualizowana.');
