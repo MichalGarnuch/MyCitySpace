@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\Unit;
+use App\Http\Requests\LeaseRequest;
 use Illuminate\Http\Request;
 
 class LeaseController extends Controller
@@ -34,22 +35,9 @@ class LeaseController extends Controller
         return view('leases.create', compact('tenants', 'units'));
     }
 
-    public function store(Request $request)
+    public function store(LeaseRequest $request)
     {
-        $validated = $request->validate([
-            'tenant_id'  => 'required|exists:tenants,id',
-            'unit_id'    => 'required|exists:units,id',
-            'start_date' => 'required|date',
-            'end_date'   => 'nullable|date|after_or_equal:start_date',
-            'rent'       => 'required|numeric|min:0',
-        ]);
-
-        if (Lease::conflictsWith($validated['unit_id'], $validated['start_date'], $validated['end_date'])) {
-            return back()->withErrors([
-                'unit_id' => 'Wybrany lokal posiada już umowę w tym okresie.',
-            ])->withInput();
-        }
-        Lease::create($validated);
+        Lease::create($request->validated());
 
         return redirect()->route('leases.index')->with('success', 'Umowa dodana.');
     }
@@ -66,22 +54,9 @@ class LeaseController extends Controller
         return view('leases.edit', compact('lease', 'tenants', 'units'));
     }
 
-    public function update(Request $request, Lease $lease)
+    public function update(LeaseRequest $request, Lease $lease)
     {
-        $validated = $request->validate([
-            'tenant_id'  => 'required|exists:tenants,id',
-            'unit_id'    => 'required|exists:units,id',
-            'start_date' => 'required|date',
-            'end_date'   => 'nullable|date|after_or_equal:start_date',
-            'rent'       => 'required|numeric|min:0',
-        ]);
-
-        if (Lease::conflictsWith($validated['unit_id'], $validated['start_date'], $validated['end_date'], $lease->id)) {
-            return back()->withErrors([
-                'unit_id' => 'Wybrany lokal posiada już umowę w tym okresie.',
-            ])->withInput();
-        }
-        $lease->update($validated);
+        $lease->update($request->validated());
 
         return redirect()->route('leases.index')->with('success', 'Umowa zaktualizowana.');
     }

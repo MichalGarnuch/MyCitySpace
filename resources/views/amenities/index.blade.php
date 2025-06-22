@@ -7,7 +7,16 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-end mb-4">
+            <div class="flex justify-between mb-4">
+                <form method="GET" class="flex space-x-2">
+                    <x-text-input
+                        name="name"
+                        type="text"
+                        placeholder="{{ __('Nazwa') }}"
+                        :value="request('name')"
+                    />
+                    <x-primary-button>{{ __('Szukaj') }}</x-primary-button>
+                </form>
                 <x-primary-button-link :href="route('amenities.create')">
                     {{ __('Dodaj udogodnienie') }}
                 </x-primary-button-link>

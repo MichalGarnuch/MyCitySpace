@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class AmenityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $amenities = Amenity::all();
+        $amenities = Amenity::query()
+            ->when(
+                $request->query('name'),
+                fn($query, $name) => $query->where('name', 'like', "%$name%")
+            )
+            ->get();
         return view('amenities.index', compact('amenities'));
     }
 
