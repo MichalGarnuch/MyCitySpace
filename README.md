@@ -103,3 +103,25 @@ php artisan test
 Polecenie uruchomi zestaw testów jednostkowych i funkcjonalnych z katalogu `tests/`.
 
 ## Zrzuty ekranu
+
+![Zrzut ekranu 2025-07-19 173640](https://github.com/user-attachments/assets/68ea0e06-1b07-4c38-a51d-d9473b7cb0cd)
+
+![Zrzut ekranu 2025-07-19 173733](https://github.com/user-attachments/assets/62aec0ae-08d5-4793-9f5d-c81238d118b7)
+
+![Zrzut ekranu 2025-07-19 173817](https://github.com/user-attachments/assets/09fe3b51-ffdf-491c-b6a7-c0f9f40a288f)
+
+![Zrzut ekranu 2025-07-19 173841](https://github.com/user-attachments/assets/6441e16b-14e3-4e54-b1a7-767d1d750e88)
+
+![Zrzut ekranu 2025-07-19 173906](https://github.com/user-attachments/assets/8cc775da-9713-4c55-97e4-67f229830015)
+
+![Zrzut ekranu 2025-07-19 173957](https://github.com/user-attachments/assets/df9d4de0-6b0f-4866-9bca-83345ae19d2b)
+
+![Zrzut ekranu 2025-07-19 174030](https://github.com/user-attachments/assets/49cbcfdf-c2d8-42e5-b4a9-dbdcfc981f24)
+
+![Zrzut ekranu 2025-07-19 174055](https://github.com/user-attachments/assets/1ff45b76-350e-4e2d-92a9-72f8a6eb464d)
+
+![Zrzut ekranu 2025-07-19 174131](https://github.com/user-attachments/assets/ed6c58f5-7ec5-4e5d-96b0-8771a6aa17b8)
+
+
+
+
