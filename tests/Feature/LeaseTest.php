@@ -9,11 +9,22 @@ use Tests\TestCase;
 class LeaseTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->travelTo(\Illuminate\Support\Carbon::parse('2023-12-01 12:00:00', 'UTC'));
+    }
+    protected function tearDown(): void
+    {
+        $this->travelBack();
+        parent::tearDown();
+    }
+
     public function test_lease_is_created_with_valid_data(): void
     {
         $user = User::factory()->create();
         $property = Property::factory()->create();
-        $unit = Unit::factory()->for($property)->create();
+        $unit = Unit::factory()->for($property)->create(['status'=>'free']);
         $tenant = Tenant::factory()->create();
 
         $response = $this->actingAs($user)->post('/leases', [
@@ -36,7 +47,7 @@ class LeaseTest extends TestCase
     {
         $user = User::factory()->create();
         $property = Property::factory()->create();
-        $unit = Unit::factory()->for($property)->create();
+        $unit = Unit::factory()->for($property)->create(['status'=>'free']);
         $tenant = Tenant::factory()->create();
 
         $response = $this->actingAs($user)->post('/leases', [
@@ -87,7 +98,7 @@ class LeaseTest extends TestCase
     public function test_store_rejects_overlapping_lease(): void
     {
         $user   = User::factory()->create();
-        $unit   = Unit::factory()->create();
+        $unit   = Unit::factory()->create(['status'=>'free']);
         $tenant = Tenant::factory()->create();
 
         Lease::create([
@@ -112,7 +123,7 @@ class LeaseTest extends TestCase
     public function test_update_rejects_overlapping_lease(): void
     {
         $user  = User::factory()->create();
-        $unit  = Unit::factory()->create();
+        $unit  = Unit::factory()->create(['status'=>'free']);
         $t1    = Tenant::factory()->create();
         $t2    = Tenant::factory()->create();
 

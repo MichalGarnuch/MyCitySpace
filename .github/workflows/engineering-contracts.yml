@@ -1,0 +1,28 @@
+name: Engineering contracts
+on:
+  push:
+    branches: [wersja-inzynierska-2026]
+  pull_request:
+    branches: [wersja-inzynierska-2026]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_sqlite
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Run complete PHPUnit suite
+        env:
+          # Ephemeral test data only, never a deployment key.
+          APP_KEY: 'base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+        run: vendor/bin/phpunit

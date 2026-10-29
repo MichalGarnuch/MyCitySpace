@@ -26,21 +26,34 @@ Wszystkie inne ścieżki zapisu (import, panel, job) muszą używać tej samej u
 
 Przed wdrożeniem trzeba wyczyścić wcześniejsze kolizje, sprawdzić indeksy po `unit_id` i datach oraz wykonać migrację na kopii danych. Ten branch nie zmieniał zewnętrznej bazy.
 
+
+## Powtarzalne testy i działające CI
+
+Po publikacji GitHub wykrył wcześniej istniejący pusty `schedule` w workflow. Usunąłem nieważną sekcję i dodałem workflow dla tego brancha. Pełna bateria HTTP nie potrzebuje manifestu assetów Vite, dlatego TestCase wyłącza wyłącznie obsługę Vite w testach; budowanie i test UI pozostają osobnymi zadaniami. phpunit.xml jawnie wybiera izolowane SQLite w pamięci.
+
+Testy LeaseTest miały daty 2024 i losowy status lokalu. Upływ czasu powodował błąd „data z przeszłości”, a losowe occupied mogło dawać odmowę z innego powodu niż badana kolizja. Zamroziłem zegar w tej klasie testów i jawnie ustawiłem wolny lokal; po teście zegar jest przywracany. Nie poluzowałem reguł produkcyjnych, żeby dopasować je do starych fixture. Nowy workflow uruchamia pełne PHPUnit na PHP 8.3.
+
 ## Weryfikacja wykonana w tej sesji
 
 | Sprawdzenie | Wynik i znaczenie |
 |---|---|
 | PHPUnit --filter LeaseWriterTest | PASS: 2 testy usługi i migracji na SQLite |
 | php -l zmienionych plików | PASS |
+| Pełny vendor/bin/phpunit, PHP 8.3 / SQLite w pamięci | PASS: 47 testów po uniezależnieniu fixture od zegara i assetów |
 
 ### Granice weryfikacji
 
-Nie wykonano pełnej baterii ani rzeczywistego testu wyścigu dwóch połączeń na docelowym silniku. Trzeba zweryfikować wszystkie alternatywne ścieżki zapisu i istniejące kolizje danych.
+Pełna bateria PHPUnit przeszła na SQLite. Nie wykonano testów przeglądarkowych, asset builda ani testu wyścigu dwóch połączeń na docelowym silniku. Trzeba zweryfikować inne ścieżki zapisu i wcześniejsze kolizje danych.
 
 ## Mapa zmian
 
+- [`.github/workflows/engineering-contracts.yml`](.github/workflows/engineering-contracts.yml)
 - [`app/Services/LeaseWriter.php`](app/Services/LeaseWriter.php)
 - [`database/migrations/2026_10_29_000001_allow_open_ended_leases.php`](database/migrations/2026_10_29_000001_allow_open_ended_leases.php)
 - [`tests/Feature/LeaseWriterTest.php`](tests/Feature/LeaseWriterTest.php)
+- [`.github/workflows/tests.yml`](.github/workflows/tests.yml)
 - [`app/Http/Controllers/LeaseController.php`](app/Http/Controllers/LeaseController.php)
+- [`phpunit.xml`](phpunit.xml)
 - [`routes/web.php`](routes/web.php)
+- [`tests/Feature/LeaseTest.php`](tests/Feature/LeaseTest.php)
+- [`tests/TestCase.php`](tests/TestCase.php)

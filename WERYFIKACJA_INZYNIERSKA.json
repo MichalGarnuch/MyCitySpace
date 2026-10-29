@@ -12,8 +12,12 @@
     {
       "command_or_scope": "php -l zmienionych plików",
       "result": "PASS"
+    },
+    {
+      "command_or_scope": "Pełny vendor/bin/phpunit, PHP 8.3 / SQLite w pamięci",
+      "result": "PASS: 47 testów po uniezależnieniu fixture od zegara i assetów"
     }
   ],
-  "limitations": "Nie wykonano pełnej baterii ani rzeczywistego testu wyścigu dwóch połączeń na docelowym silniku. Trzeba zweryfikować wszystkie alternatywne ścieżki zapisu i istniejące kolizje danych.",
+  "limitations": "Pełna bateria PHPUnit przeszła na SQLite. Nie wykonano testów przeglądarkowych, asset builda ani testu wyścigu dwóch połączeń na docelowym silniku. Trzeba zweryfikować inne ścieżki zapisu i wcześniejsze kolizje danych.",
   "production_deployment_performed": false
 }
