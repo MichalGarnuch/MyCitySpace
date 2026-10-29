@@ -37,7 +37,7 @@ class LeaseController extends Controller
 
     public function store(LeaseRequest $request)
     {
-        Lease::create($request->validated());
+        app(\App\Services\LeaseWriter::class)->save($request->validated());
 
         return redirect()->route('leases.index')->with('success', 'Umowa dodana.');
     }
@@ -56,7 +56,7 @@ class LeaseController extends Controller
 
     public function update(LeaseRequest $request, Lease $lease)
     {
-        $lease->update($request->validated());
+        app(\App\Services\LeaseWriter::class)->save($request->validated(), $lease);
 
         return redirect()->route('leases.index')->with('success', 'Umowa zaktualizowana.');
     }

@@ -18,7 +18,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::resource('properties', PropertyController::class);
     Route::resource('properties.units', UnitController::class);   // nested

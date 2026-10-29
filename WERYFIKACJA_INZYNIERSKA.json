@@ -1,0 +1,19 @@
+{
+  "repository": "MyCitySpace",
+  "branch": "wersja-inzynierska-2026",
+  "base_ref": "main",
+  "base_commit": "b3841c61a7de3b40187c5f141c1954c10c8dce60",
+  "date": "2026-10-29",
+  "checks": [
+    {
+      "command_or_scope": "PHPUnit --filter LeaseWriterTest",
+      "result": "PASS: 2 testy usługi i migracji na SQLite"
+    },
+    {
+      "command_or_scope": "php -l zmienionych plików",
+      "result": "PASS"
+    }
+  ],
+  "limitations": "Nie wykonano pełnej baterii ani rzeczywistego testu wyścigu dwóch połączeń na docelowym silniku. Trzeba zweryfikować wszystkie alternatywne ścieżki zapisu i istniejące kolizje danych.",
+  "production_deployment_performed": false
+}
